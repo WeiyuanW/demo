@@ -1,8 +1,17 @@
 package com.example.demo.model;
 
+import jakarta.validation.constraints.*;
+
 public class User {
 
+//    @NotNull
+//    @Positive
+//    @Email()
+//    @Min
+//    @Max
+//    @Length
     private  Long id;
+
     private String firstName;
 
     public User(Long id, String firstName) {
