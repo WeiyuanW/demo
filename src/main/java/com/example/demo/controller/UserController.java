@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/api")
 @Validated
@@ -17,7 +19,7 @@ public class UserController {
 
     private final UserService userService;
 
-    public UserController(@Qualifier("userServiceImpl1") UserService userService) {
+    public UserController(@Qualifier("userServiceImpl") UserService userService) {
         this.userService = userService;
     }
 
@@ -30,31 +32,28 @@ public class UserController {
         if (userId == 99) {
             throw new UserNotFoundException("User not found");
         }
-
-//        userService.getUser(userId);
-        return new ResponseEntity<User>(new User(userId, "David"), HttpStatus.valueOf(200));
+        return new ResponseEntity<User>(userService.getUserById(userId), HttpStatus.valueOf(200));
     }
 
     // insert (RequestBody)
-    @PostMapping(value="/user")
+    @PostMapping("/user")
     public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         // logic to save the user
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
-    }
-
-    // delete Userid
-    @DeleteMapping("user/{userId}")
-    public ResponseEntity<Long> deleteUser(@PathVariable Long userId) {
-        // delete user from DB
-        return ResponseEntity.noContent().build(); // new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
     }
 
     //Update  userID + new ReuquestBody User
-    @PutMapping("user/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User user) {
-        // fetch user from DB, modify fields, then save
-        User updatedUser = new User(userId, user.getFirstName());
-        return ResponseEntity.ok(updatedUser); // new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    @PutMapping("/user")
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        user.setId(user.getId());
+        return ResponseEntity.ok(userService.saveUser(user)); // new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+
+    // delete Userid
+    @DeleteMapping("/user/{userId}")
+    public ResponseEntity<Long> deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.noContent().build(); // new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
 }

@@ -1,7 +1,10 @@
 package com.example.demo.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+@Entity
+@Table(name = "users")
 public class User {
 
 //    @NotNull
@@ -10,9 +13,13 @@ public class User {
 //    @Min
 //    @Max
 //    @Length
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
-
+    @Column(name = "first_name", nullable = false)
     private String firstName;
+
+    public User() {}
 
     public User(Long id, String firstName) {
         this.id = id;
