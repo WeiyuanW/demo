@@ -58,24 +58,19 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
-        <!-- PostgreSQL JDBC Driver（JDBC和JPA都需要） -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.7.3</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- JDBC Template 用于 JDBC 版本 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
-
-        <!-- Hibernate + JPA 用于 Hibernate 版本 & Spring Data JPA 版本 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
 
     </dependencies>

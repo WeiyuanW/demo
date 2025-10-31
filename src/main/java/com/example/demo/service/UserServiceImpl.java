@@ -1,28 +1,44 @@
 package com.example.demo.service;
 
 import com.example.demo.model.User;
-import com.example.demo.repository.UserDao;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserDao userDao;
-
-    //  @Qualifier("jdbc") => "jdbc" can switch to "hibernate" or "jpa" for diff implementations
-    public UserServiceImpl(@Qualifier("jdbc") UserDao userDao) {
-        this.userDao = userDao;
+    @Override
+    public User createUser(User user) {
+        throw new UnsupportedOperationException("Not implemented - use userServiceJdbc, userServiceHibernate, or userServiceJpa");
     }
 
     @Override
-    public User getUserById(Long id) { return userDao.getUserById(id); }
+    public Optional<User> getUserById(Long id) {
+        throw new UnsupportedOperationException("Not implemented - use userServiceJdbc, userServiceHibernate, or userServiceJpa");
+    }
 
     @Override
-    public User saveUser(User user) { return userDao.saveUser(user); }
+    public List<User> getAllUsers() {
+        throw new UnsupportedOperationException("Not implemented - use userServiceJdbc, userServiceHibernate, or userServiceJpa");
+    }
 
     @Override
-    public void deleteUser(Long id) { userDao.deleteUser(id); }
+    public User updateUser(User user) {
+        throw new UnsupportedOperationException("Not implemented - use userServiceJdbc, userServiceHibernate, or userServiceJpa");
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        throw new UnsupportedOperationException("Not implemented - use userServiceJdbc, userServiceHibernate, or userServiceJpa");
+    }
+
+    @Override
+    public boolean userExists(Long id) {
+        throw new UnsupportedOperationException("Not implemented - use userServiceJdbc, userServiceHibernate, or userServiceJpa");
+    }
 }
+
+
+
