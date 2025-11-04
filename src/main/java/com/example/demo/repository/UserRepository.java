@@ -1,7 +1,9 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.User;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -68,4 +70,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // Count users by last name
     long countByLastName(String lastName);
+
+    // 1. Standard method: for optimistic locking (findById) and saving (save)
+    // JpaRepository already provides findById and save.
+
+    // 2. Pessimistic locking method: Force the database to lock the row using annotations.
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT u FROM User u WHERE u.id = :id")
+    Optional<User> findByIdForUpdate(Long id);
+
+
 }

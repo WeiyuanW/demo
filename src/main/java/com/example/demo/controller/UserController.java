@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -153,6 +154,37 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    // 乐观锁 (Optimistic Lock)
+    @PutMapping("/jpa/user/optimistic/{userId}")
+    public ResponseEntity<User> updateOptimisticUser(@PathVariable Long userId, @Valid @RequestBody User user) {
+        user.setId(userId);
+        try {
+            User updatedUser = jpaUserService.updateOptimistic(user);
+            return ResponseEntity.ok(updatedUser);
+        } catch (ObjectOptimisticLockingFailureException e) {
+            // 乐观锁失败时的标准响应：409 Conflict，提示用户数据已被修改
+            return ResponseEntity.status(409).build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // 悲观锁 (Pessimistic Lock)
+    @PutMapping("/pessimistic/{userId}")
+    public ResponseEntity<User> updatePessimisticUser(@PathVariable Long userId, @Valid @RequestBody User user) {
+        user.setId(userId);
+        try {
+            // 悲观锁逻辑在 Service 层处理阻塞/超时
+            User updatedUser = jpaUserService.updatePessimistic(user);
+            return ResponseEntity.ok(updatedUser);
+        } catch (RuntimeException e) {
+            // 如果是数据库锁等待超时，这里可能捕获到特定的异常，或者统一返回 500
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+
 
     @DeleteMapping("/jpa/user/{userId}")
     public ResponseEntity<Void> deleteJpaUser(@PathVariable Long userId) {

@@ -21,6 +21,9 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Version
+    private Long version;
+
     // Default constructor required by JPA
     public User() {
     }

@@ -50,6 +50,16 @@ public class UserServiceHibernate implements UserService {
         return userDaoHibernate.update(user);
     }
 
+    // 乐观锁更新方法 (Optimistic Lock) todo
+    public User updateOptimistic(User userUpdateData) {
+        return  userDaoHibernate.save(userUpdateData);
+    }
+
+    // 悲观锁更新方法 (Pessimistic Lock) todo
+    public User updatePessimistic(User userUpdateData) {
+        return  userDaoHibernate.save(userUpdateData);
+    }
+
     @Override
     public void deleteUser(Long id) {
         if (!userDaoHibernate.existsById(id)) {

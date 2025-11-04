@@ -53,6 +53,16 @@ public class UserServiceJdbc implements UserService {
         return userDaoJdbc.update(user);
     }
 
+    // 乐观锁更新方法 (Optimistic Lock) todo
+    public User updateOptimistic(User userUpdateData) {
+        return userDaoJdbc.save(userUpdateData);
+    }
+
+    // 悲观锁更新方法 (Pessimistic Lock) todo
+    public User updatePessimistic(User userUpdateData) {
+        return userDaoJdbc.save(userUpdateData);
+    }
+
     @Override
     public void deleteUser(Long id) {
         if (!userDaoJdbc.existsById(id)) {

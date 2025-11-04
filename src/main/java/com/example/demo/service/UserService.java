@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.User;
+import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +19,8 @@ public interface UserService {
     void deleteUser(Long id);
 
     boolean userExists(Long id);
+
+    User updateOptimistic(@Valid User user);
+
+    User updatePessimistic(@Valid User user);
 }
