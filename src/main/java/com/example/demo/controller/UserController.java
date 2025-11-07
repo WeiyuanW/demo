@@ -144,9 +144,9 @@ public class UserController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    @PutMapping("/jpa/user/{userId}")
-    public ResponseEntity<User> updateJpaUser(@PathVariable Long userId, @Valid @RequestBody User user) {
-        user.setId(userId);
+    @PutMapping("/jpa/user")
+    public ResponseEntity<User> updateJpaUser(@Valid @RequestBody User user) {
+        user.setId(user.getId());
         try {
             User updatedUser = jpaUserService.updateUser(user);
             return ResponseEntity.ok(updatedUser);

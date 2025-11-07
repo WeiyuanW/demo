@@ -49,14 +49,27 @@ public class UserServiceJpa implements UserService {
         return userRepository.findAll();
     }
 
+//    @Override
+//    public User updateUser(User user) {
+//        if (!userRepository.existsById(user.getId())) {
+//            throw new RuntimeException("User not found with id: " + user.getId());
+//        }
+//        // save() handles both create and update
+//        return userRepository.save(user);
+//    }
+
     @Override
-    public User updateUser(User user) {
-        if (!userRepository.existsById(user.getId())) {
-            throw new RuntimeException("User not found with id: " + user.getId());
-        }
-        // save() handles both create and update
-        return userRepository.save(user);
+    public User updateUser(User userData) {
+        return userRepository.findById(userData.getId())
+                .map(existing -> {
+                    existing.setFirstName(userData.getFirstName());
+                    existing.setLastName(userData.getLastName());
+                    existing.setEmail(userData.getEmail());
+                    return userRepository.save(existing); // ✅ version 会自动处理
+                })
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
+
 
     // 乐观锁更新方法 (Optimistic Lock)
     @Transactional

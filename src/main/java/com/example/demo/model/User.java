@@ -70,4 +70,12 @@ public class User {
     public String getEmail() {
         return email;
     }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 }
